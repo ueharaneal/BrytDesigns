@@ -12,7 +12,7 @@ const config: Config = {
     extend: { 
       colors: { 
         primary: `#100C08`,
-        accent: `#FFD700`,
+        card: `#FAFAFA`,
         border: `#E5E7EB`,
       },
     },
