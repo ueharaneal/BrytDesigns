@@ -3,6 +3,7 @@
 import { faFontAwesome } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
+import MultiStepForm from "./multiStepForm/MultiStepForm";
 
 export default function Home() {
   const [name, setName] = useState("World");
@@ -26,15 +27,7 @@ export default function Home() {
         </a>{" "}
         or whatever icon library you want to use :3
       </p>
-      <form>
-        <input
-          className="border-2 border-yellow-500 rounded p-4 text-2xl w-full dark:bg-black dark:text-gray-300 dark:placeholder:text-gray-400"
-          name="name"
-          placeholder="name"
-          value={name}
-          onChange={({ target }) => setName(target.value)}
-        />
-      </form>
+        <MultiStepForm /> 
     </main>
   );
 }
