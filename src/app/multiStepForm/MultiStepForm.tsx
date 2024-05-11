@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { SetStateAction, useState } from "react"
 import { z } from "zod"
 import Step1 from "./Step1"
 import Step2 from "./Step2"
@@ -56,8 +56,12 @@ export default function MultiStepForm() {
     const [formData, setFormData] = useState<formSchemaType>(initialFormState)
     
     //I know this is dirty but i am running out of time! 
-    const updateFormData = (newFormData : formSchemaType) => {
-        setFormData(newFormData);
+    const updateFormData = (value: SetStateAction<formSchemaType>) => {
+        if (typeof value === 'function') {
+            setFormData(prevState => value(prevState));
+        } else {
+            setFormData(value);
+        }
         console.log(formData);
     };
 	//creating the the object for the titles
