@@ -15,6 +15,7 @@ const config: Config = {
         card: `#FAFAFA`,
         border: `#E5E7EB`,
         pop: `#7B68EE`,
+        popDark: '#6458BA'
       },
     },
   }

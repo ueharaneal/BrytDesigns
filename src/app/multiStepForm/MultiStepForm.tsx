@@ -6,35 +6,11 @@ import Step3 from "./Step3"
 import Step4 from "./Step4"
 import ProgressBar from "./ProgressBar"
 import axios from 'axios'
-export const accountSchema = z.object({
-    firstName: z.string(),
-    lastName: z.string(),
-    userName: z.string(),
-    email: z.string(),
-    password: z.string(),
-    confirmPassword: z.string(),
-});
-export const addressSchema = z.object({
-    street: z.string(),
-    apartment: z.string(),
-    country: z.string(),
-    city: z.string(),
-    state: z.string(),
-    zip: z.string(),
-    company: z.string(),
-    phone: z.string(),
-});
-export const preferencesSchema = z.object({
-    notifications: z.string(),
-    shareInformation: z.string(),
-    notificationsPreference: z.string(),
-});
-export const formSchema = z.object({
-    account: accountSchema,
-    address: addressSchema,
-    preferences: preferencesSchema,
-});
-export type accountSchemaType = z.infer<typeof accountSchema>
+import { formJsonSchema } from "../api/register/schemas";
+
+
+export const formSchema = formJsonSchema
+
  export type formSchemaType = z.infer<typeof formSchema>
 
 export default function MultiStepForm() {
@@ -44,7 +20,7 @@ export default function MultiStepForm() {
 	//I was also of thinking of using context api to manage the state of the form but realized that it would be overkill for this simple form
 	//I ussually would react hook form/ works great with zod for form validation
 	const buttonClass =
-		"bg-pop hover:bg-purple-700 text-white font-bold py-2 px-4 rounded"
+		"bg-pop hover:bg-popDark text-white font-bold py-2 px-4 rounded"
 	const mutedClass = "bg-border text-white font-bold py-2 px-4 rounded"
 
 
@@ -52,33 +28,31 @@ export default function MultiStepForm() {
 
 	//creating the initial state of the form
 	const initialFormState: formSchemaType = {
-		account: {
-			firstName: "",
-			lastName: "",
-			userName: "",
-			email: "",
-			password: "",
-			confirmPassword: "",
-		},
-		address: {
-			street: "",
-			apartment: "",
-			country: "",
-			city: "",
-			state: "",
-			zip: "",
-			company: "",
-			phone: "",
-		},
-		preferences: {
-			notifications: "false",
-			shareInformation: "false",
-			notificationsPreference: "",
-		},
-	}
+        firstName: "Neal",
+        lastName: "uehara",
+        email: "ueharaneal@gmail.com",
+        username: "ueharaNeal",
+        password: "Dragunitysdf23",
+        confirmPassword: "Dragunitysdf23",
+        address1: "12312sdlfkjgkldfg",
+        address2: "",
+        country: 'US',
+        city: "newport beach",
+        zipCode: "91746",
+        company: "bryt",
+        phoneNumber: "9496833881",
+        wantsNotifications: "Yes",
+        shareInformation: "Yes",
+        notificationPreferences: "Email",
+      };
+    const formTitles: Record<number, string> = {
+        0: "Account: 1 of 3",
+        1: "Address: 2 of 3",
+        2: "Preferences: 3 of 3",
+    }
 
 	const [formStep, setFormStep] = useState(0)
-	const [formTitle, setFormTitle] = useState("Account")
+	const [formTitle, setFormTitle] = useState(formTitles[0])
     const [formData, setFormData] = useState<formSchemaType>(initialFormState)
     
     //I know this is dirty but i am running out of time! 
@@ -88,38 +62,44 @@ export default function MultiStepForm() {
     };
 	//creating the the object for the titles
 	//honestly i should have put this with the step components
-	const formTitles: Record<number, string> = {
-		0: "Account",
-		1: "Address",
-		2: "Preferences",
-	}
 	//creating handle prev and next Step handler
 	const handleNextStep = () => {
 		setFormStep(prevStep => prevStep + 1)
-		setFormTitle(formTitles[formStep])
+		setFormTitle(formTitles[formStep + 1])
    
 	}
 	const handlePrevStep = () => {
 		setFormStep(prevStep => prevStep - 1)
-		setFormTitle(formTitles[formStep])
+		setFormTitle(formTitles[formStep - 1])
 	}
 
 	const handleFormSubmit = async() => {
-		console.log("Form submitted")
+        console.log(formData);
+        const validationResult = formJsonSchema.safeParse(formData);
+        if (validationResult.success) {
+          const validatedData = validationResult.data;
+          console.log('Validated data:', validatedData);
+        
         try {
-            const response = await axios.post('/api/register', formData);
+            const response = await axios.post('http://localhost:3000/api/register',validatedData,{
+                headers: {
+                  'Content-Type': 'multipart/form-data'
+                }
+              });
             console.log('Form submitted successfully:', response.data);
             setFormStep(prevStep => prevStep + 1);
         } catch (error) {
             console.error('Error submitting form:', error);
         }
-        
+    }else{
+        console.log('Validation error:', validationResult.error);
+    }
 	}
     
 	return (
 		<>
-			<div className='w-[750px] bg-card shadow-lg rounded-lg flex flex-col justify-center items-center my-4'>
-				<div className='w-full text-center font-bold text-3xl rounded-lg py-4'>
+			<div className='w-[750px] bg-card shadow-lg rounded-lg flex flex-col justify-center items-center my-4 text-primary'>
+				<div className='w-full text-center font-bold text-3xl rounded-lg py-4 text-primary'>
 					{formTitle}
 				</div>
 				<div className='w-[730px] min-h-[550px] bg-white flex flex-col items-center justify-between'>

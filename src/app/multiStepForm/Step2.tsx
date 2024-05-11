@@ -1,5 +1,44 @@
 import React from "react"
 import { formSchemaType } from "./MultiStepForm"
+
+const countries = [
+    "United States",
+    "United Kingdom",
+    "Canada",
+    "Mexico",
+    "Germany",
+    "France",
+    "Japan",
+    "China",
+    "India",
+    "Russia",
+    "South Korea",
+    "Brazil",
+    "Australia",
+    "South Africa",
+    "Spain",
+    "Italy",
+    "Turkey",
+    "Indonesia",
+    "Nigeria",
+    "Netherlands",
+    "Switzerland",
+    "Sweden",
+    "Norway",
+    "Denmark",
+    "Finland",
+    "Belgium",
+    "Poland",
+    "Austria",
+    "Portugal",
+    "Greece",
+    "Czech Republic",
+    "Hungary",
+    "Ireland",
+    "New Zealand",
+    "Singapore",
+    "Hong Kong"
+]
 export default function Step2({
 	formData,
 	updateFormData,
@@ -11,10 +50,7 @@ export default function Step2({
 		const { name, value } = e.target
 		updateFormData(prevFormData => ({
 			...prevFormData,
-			address: {
-				...prevFormData.address,
-				[name]: value,
-			},
+				[name]: value
 		}))
 	}
 
@@ -22,27 +58,27 @@ export default function Step2({
 		<form className='flex flex-col gap-y-6 w-5/6'>
 			<div className='flex flex-row justify-around'>
 				<div className='flex flex-col my-1'>
-					<label htmlFor='address'>Address</label>
+					<label htmlFor='address1'>Address</label>
 					<input
 						type='text'
-						id='address'
-						name='street'
-						value={formData.address.street}
+						id='address1'
+						name='address1'
+						value={formData.address1}
 						onChange={handleChange}
 						className='border rounded-lg px-3 py-2 focus:outline-none focus:ring-black focus:border-black placeholder:sm:text-sm placeholder-gray-400'
 						placeholder='Address'
 					/>
 				</div>
 				<div className='flex flex-col my-1'>
-					<label htmlFor='apartment'>Apartment, Suite, etc.</label>
+					<label htmlFor='apartment'>Address 2</label>
 					<input
 						type='text'
-						id='apartment'
-						name='apartment'
-						value={formData.address.apartment}
+						id='address2'
+						name='address2'
+						value={formData.address2}
 						onChange={handleChange}
 						className='border rounded-lg px-3 py-2 focus:outline-none focus:ring-black focus:border-black placeholder:sm:text-sm placeholder-gray-400'
-						placeholder='Apartment, Suite, etc.'
+						placeholder='Address 2'
 					/>
 				</div>
 			</div>
@@ -51,20 +87,20 @@ export default function Step2({
 					<label htmlFor='country'>Country</label>
 					<select
 						className='border appearance-none rounded-lg px-4 py-2 focus:outline-none focus:ring-black focus:border-black placeholder:sm:text-sm placeholder-gray-400'
-						value={formData.address.country}
+						value={formData.country}
 						onChange={e =>
 							updateFormData(prevFormData => ({
-								...prevFormData,
-								address: {
-									...prevFormData.address,
-									country: e.target.value, // Use e.target.value to get the selected value
-								},
-							}))
+                                ...prevFormData,
+                                country: "US", // Update only the selected value
+                            }))
 						}
 						name='country'
 					>
 						<option value=''>Select Country</option>
-						<option value='USA'>USA</option>
+						{countries.map(country => (
+                             // Map over the countries array
+                            <option key={country} value="US"> {country} </option> 
+                        ))}
 					</select>
 				</div>
 				<div className='flex flex-col my-1'>
@@ -73,19 +109,19 @@ export default function Step2({
 						type='text'
 						id='city'
 						name='city'
-						value={formData.address.city}
+						value={formData.city}
 						onChange={handleChange}
 						className='border rounded-lg px-3 py-2 focus:outline-none focus:ring-black focus:border-black placeholder:sm:text-sm placeholder-gray-400'
 						placeholder='City'
 					/>
 				</div>
 				<div className='flex flex-col my-1'>
-					<label htmlFor='zipcode'>Zipcode</label>
+					<label htmlFor='zipCode'>Zipcode</label>
 					<input
 						type='text'
-						id='zipcode'
-						name='zip'
-						value={formData.address.zip}
+						id='zipCode'
+						name='zipCode'
+						value={formData.zipCode}
 						onChange={handleChange}
 						className='border rounded-lg px-2 py-2 focus:outline-none focus:ring-black focus:border-black placeholder:sm:text-sm placeholder-gray-400'
 						placeholder='Zipcode'
@@ -98,7 +134,7 @@ export default function Step2({
 					type='text'
 					id='company'
 					name='company'
-					value={formData.address.company}
+					value={formData.company}
 					onChange={handleChange}
 					className='border rounded-lg px-3 py-2 focus:outline-none focus:ring-black focus:border-black placeholder:sm:text-sm placeholder-gray-400'
 					placeholder='Company'
@@ -110,8 +146,8 @@ export default function Step2({
 					<input
 						type='text'
 						id='phoneNumber'
-						name='phone'
-						value={formData.address.phone}
+						name='phoneNumber'
+						value={formData.phoneNumber}
 						onChange={handleChange}
 						className='border rounded-lg px-3 py-2 focus:outline-none focus:ring-black focus:border-black placeholder:sm:text-sm placeholder-gray-400'
 						placeholder='Phone Number'

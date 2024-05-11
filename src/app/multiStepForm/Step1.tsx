@@ -6,10 +6,7 @@ export default function Step1({ formData, updateFormData } : { formData: formSch
             const { name, value } = e.target;
             updateFormData((prevFormData) => ({
                 ...prevFormData,
-                account: {
-                    ...prevFormData.account,
                     [name]: value,
-                },
             }));
     };
 
@@ -22,7 +19,7 @@ export default function Step1({ formData, updateFormData } : { formData: formSch
             type="text"
             id="firstName"
             name="firstName"
-            value={formData.account.firstName}
+            value={formData.firstName}
             onChange={handleChange}
             className="border rounded-lg px-3 py-2 focus:outline-none focus:ring-black focus:border-black placeholder:sm:text-sm placeholder-gray-400"
             placeholder="First name"
@@ -34,7 +31,7 @@ export default function Step1({ formData, updateFormData } : { formData: formSch
             type="text"
             id="lastName"
             name="lastName"
-            value={formData.account.lastName}
+            value={formData.lastName}
             onChange={handleChange}
             className="border rounded-lg px-3 py-2 focus:outline-none focus:ring-black focus:border-black placeholder:sm:text-sm placeholder-gray-400"
             placeholder="Last name"
@@ -42,12 +39,12 @@ export default function Step1({ formData, updateFormData } : { formData: formSch
         </div>
       </div>
       <div className="flex flex-col my-1">
-        <label htmlFor="userName">User Name</label>
+        <label htmlFor="username">User Name</label>
         <input
           type="text"
-          id="userName"
-          name="userName"
-          value={formData.account.userName}
+          id="username"
+          name="username"
+          value={formData.username}
           onChange={handleChange}
           className="border rounded-lg px-3 py-2 focus:outline-none focus:ring-black focus:border-black placeholder:sm:text-sm placeholder-gray-400"
           placeholder="Username"
@@ -59,7 +56,7 @@ export default function Step1({ formData, updateFormData } : { formData: formSch
           type="email"
           id="email"
           name="email"
-          value={formData.account.email}
+          value={formData.email}
           onChange={handleChange}
           className="border rounded-lg px-3 py-2 focus:outline-none focus:ring-black focus:border-black placeholder:sm:text-sm placeholder-gray-400"
           placeholder="Email"
@@ -72,7 +69,7 @@ export default function Step1({ formData, updateFormData } : { formData: formSch
             type="password"
             id="password"
             name="password"
-            value={formData.account.password}
+            value={formData.password}
             onChange={handleChange}
             className="border rounded-lg px-3 py-2 focus:outline-none focus:ring-black focus:border-black placeholder:sm:text-sm placeholder-gray-400"
             placeholder="Password"
@@ -84,7 +81,7 @@ export default function Step1({ formData, updateFormData } : { formData: formSch
             type="password"
             id="confirmPassword"
             name="confirmPassword"
-            value={formData.account.confirmPassword}
+            value={formData.confirmPassword}
             onChange={handleChange}
             className="border rounded-lg px-3 py-2 focus:outline-none focus:ring-black focus:border-black placeholder:sm:text-sm placeholder-gray-400"
             placeholder="Confirm password"
