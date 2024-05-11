@@ -14,6 +14,7 @@ const config: Config = {
         primary: `#100C08`,
         card: `#FAFAFA`,
         border: `#E5E7EB`,
+        pop: `#7B68EE`,
       },
     },
   }
