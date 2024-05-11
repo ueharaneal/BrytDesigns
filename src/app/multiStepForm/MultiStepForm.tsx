@@ -1,5 +1,5 @@
 import { SetStateAction, useState } from "react"
-import { z } from "zod"
+import { set, z } from "zod"
 import Step1 from "./Step1"
 import Step2 from "./Step2"
 import Step3 from "./Step3"
@@ -32,8 +32,8 @@ export default function MultiStepForm() {
         lastName: "uehara",
         email: "ueharaneal@gmail.com",
         username: "ueharaNeal",
-        password: "Dragunitysdf23",
-        confirmPassword: "Dragunitysdf23",
+        password: "",
+        confirmPassword: "",
         address1: "12312sdlfkjgkldfg",
         address2: "",
         country: 'US',
@@ -54,6 +54,9 @@ export default function MultiStepForm() {
 	const [formStep, setFormStep] = useState(0)
 	const [formTitle, setFormTitle] = useState(formTitles[0])
     const [formData, setFormData] = useState<formSchemaType>(initialFormState)
+    const [formErrors, setFormErrors] = useState({})
+    const [formErrorsArray, setFormErrorsArray] = useState<any>()
+    const [response, setResponse] = useState<any>("")
     
     //I know this is dirty but i am running out of time! 
     const updateFormData = (value: SetStateAction<formSchemaType>) => {
@@ -62,7 +65,6 @@ export default function MultiStepForm() {
         } else {
             setFormData(value);
         }
-        console.log(formData);
     };
 	//creating the the object for the titles
 	//honestly i should have put this with the step components
@@ -77,28 +79,36 @@ export default function MultiStepForm() {
 		setFormTitle(formTitles[formStep - 1])
 	}
 
-	const handleFormSubmit = async() => {
-        console.log(formData);
+    const handleFormSubmit = async (event: React.FormEvent) => {
+        event.preventDefault();
         const validationResult = formJsonSchema.safeParse(formData);
         if (validationResult.success) {
-          const validatedData = validationResult.data;
-          console.log('Validated data:', validatedData);
-        
-        try {
-            const response = await axios.post('http://localhost:3000/api/register',validatedData,{
-                headers: {
-                  'Content-Type': 'multipart/form-data'
-                }
-              });
-            console.log('Form submitted successfully:', response.data);
-            setFormStep(prevStep => prevStep + 1);
-        } catch (error) {
-            console.error('Error submitting form:', error);
+            const validatedData = validationResult.data;
+            console.log('Validated data:', validatedData);
+
+            try {
+                const response = await axios.post('http://localhost:3000/api/register', validatedData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                });
+                console.log('Form submitted successfully:', response.data.data);
+                setResponse(response.data.data.message);
+                setFormStep(prevStep => prevStep + 1);
+            } catch (error) {
+                console.error('Error submitting form:', error);
+                console.log('Form errors:', formErrors);
+
+
+            }
+        } else {
+            console.log('Validation Field error:', validationResult.error.formErrors);
+            setFormErrors(validationResult.error.formErrors.fieldErrors);
+            setFormErrorsArray(validationResult.error.formErrors.formErrors);
+            console.log('Form errors:', formErrors);
+            console.log('Form errors array:', formErrorsArray);
         }
-    }else{
-        console.log('Validation error:', validationResult.error);
     }
-	}
     
 	return (
 		<>
@@ -110,10 +120,10 @@ export default function MultiStepForm() {
 					<div className='my-7'>
 						<ProgressBar currentStep={formStep} />{" "}
 					</div>
-					{formStep === 0 && <Step1 formData={formData} updateFormData={updateFormData} />}
-					{formStep === 1 && <Step2 formData={formData} updateFormData={updateFormData} />}
-					{formStep === 2 && <Step3 formData={formData} updateFormData={updateFormData} />}
-					{formStep === 3 && <Step4 />}
+					{formStep === 0 && <Step1 formData={formData} updateFormData={updateFormData} formErrors = {formErrors} />}
+					{formStep === 1 && <Step2 formData={formData} updateFormData={updateFormData} formErrors = {formErrors}/>}
+					{formStep === 2 && <Step3 formData={formData} updateFormData={updateFormData} formErrors = {formErrors} formErrorsArray={formErrorsArray}/>}
+					{formStep === 3 && <Step4 responseMessage={response}/>}
 
 					<div className='flex flex-row items-center  w-full justify-around my-7'>
 						{formStep !== 0 ? (

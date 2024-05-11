@@ -1,7 +1,7 @@
 import React from "react";
 import { formSchemaType } from "./MultiStepForm";
 
-export default function Step1({ formData, updateFormData } : { formData: formSchemaType, updateFormData: React.Dispatch<React.SetStateAction<formSchemaType>>}) {
+export default function Step1({ formData, updateFormData, formErrors } : { formData: formSchemaType, updateFormData: React.Dispatch<React.SetStateAction<formSchemaType>>, formErrors: any }) {
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
             const { name, value } = e.target;
             updateFormData((prevFormData) => ({
@@ -24,6 +24,9 @@ export default function Step1({ formData, updateFormData } : { formData: formSch
             className="border rounded-lg px-3 py-2 focus:outline-none focus:ring-black focus:border-black placeholder:sm:text-sm placeholder-gray-400"
             placeholder="First name"
           />
+          {formErrors.firstName && (
+                <div className="error">{formErrors.firstName}</div>
+            )}
         </div>
         <div className="flex flex-col my-1">
           <label htmlFor="lastName">Last Name</label>
@@ -36,6 +39,9 @@ export default function Step1({ formData, updateFormData } : { formData: formSch
             className="border rounded-lg px-3 py-2 focus:outline-none focus:ring-black focus:border-black placeholder:sm:text-sm placeholder-gray-400"
             placeholder="Last name"
           />
+          {formErrors.lastName && (
+                <div className="error">{formErrors.lastName}</div>
+            )}
         </div>
       </div>
       <div className="flex flex-col my-1">
@@ -49,6 +55,9 @@ export default function Step1({ formData, updateFormData } : { formData: formSch
           className="border rounded-lg px-3 py-2 focus:outline-none focus:ring-black focus:border-black placeholder:sm:text-sm placeholder-gray-400"
           placeholder="Username"
         />
+        {formErrors.username && (
+                <div className="error">{formErrors.username}</div>
+            )}
       </div>
       <div className="flex flex-col my-1">
         <label htmlFor="email">Email</label>
@@ -61,6 +70,9 @@ export default function Step1({ formData, updateFormData } : { formData: formSch
           className="border rounded-lg px-3 py-2 focus:outline-none focus:ring-black focus:border-black placeholder:sm:text-sm placeholder-gray-400"
           placeholder="Email"
         />
+        {formErrors.email && (
+                <div className="error">{formErrors.email}</div>
+            )}
       </div>
       <div className="">
         <div className="flex flex-col my-3">
@@ -74,6 +86,9 @@ export default function Step1({ formData, updateFormData } : { formData: formSch
             className="border rounded-lg px-3 py-2 focus:outline-none focus:ring-black focus:border-black placeholder:sm:text-sm placeholder-gray-400"
             placeholder="Password"
           />
+          {formErrors.password && (
+                <div className="error">{formErrors.password}</div>
+            )}
         </div>
         <div className="flex flex-col my-1">
           <label htmlFor="confirmPassword">Confirm Password</label>
@@ -86,6 +101,9 @@ export default function Step1({ formData, updateFormData } : { formData: formSch
             className="border rounded-lg px-3 py-2 focus:outline-none focus:ring-black focus:border-black placeholder:sm:text-sm placeholder-gray-400"
             placeholder="Confirm password"
           />
+          {formErrors.fieldErrors && (
+                <div className="error">{formErrors}</div>
+            )}
         </div>
       </div>
     </form>

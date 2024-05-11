@@ -1,5 +1,7 @@
-export default function Step4() {
+export default function Step4({responseMessage}: {responseMessage: string}) {
+    console.log("responseMessage")
+    console.log(responseMessage)
         return(
-            <div> Congratulations you have completed the form and the information has been sent! </div>
+            <div>{responseMessage} </div>
         )
     }

@@ -42,9 +42,11 @@ const countries = [
 export default function Step2({
 	formData,
 	updateFormData,
+    formErrors
 }: {
 	formData: formSchemaType
 	updateFormData: React.Dispatch<React.SetStateAction<formSchemaType>>
+    formErrors: any
 }) {
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const { name, value } = e.target
@@ -68,6 +70,9 @@ export default function Step2({
 						className='border rounded-lg px-3 py-2 focus:outline-none focus:ring-black focus:border-black placeholder:sm:text-sm placeholder-gray-400'
 						placeholder='Address'
 					/>
+                    {formErrors.address1 && (
+                <div className="error">{formErrors.address1}</div>
+            )}
 				</div>
 				<div className='flex flex-col my-1'>
 					<label htmlFor='apartment'>Address 2</label>
@@ -102,6 +107,9 @@ export default function Step2({
                             <option key={country} value="US"> {country} </option> 
                         ))}
 					</select>
+                    {formErrors.country && (
+                <div className="error">{formErrors.country}</div>
+            )}
 				</div>
 				<div className='flex flex-col my-1'>
 					<label htmlFor='city'>City</label>
@@ -114,6 +122,9 @@ export default function Step2({
 						className='border rounded-lg px-3 py-2 focus:outline-none focus:ring-black focus:border-black placeholder:sm:text-sm placeholder-gray-400'
 						placeholder='City'
 					/>
+                    {formErrors.city && (
+                <div className="error">{formErrors.city}</div>
+            )}
 				</div>
 				<div className='flex flex-col my-1'>
 					<label htmlFor='zipCode'>Zipcode</label>
@@ -126,6 +137,9 @@ export default function Step2({
 						className='border rounded-lg px-2 py-2 focus:outline-none focus:ring-black focus:border-black placeholder:sm:text-sm placeholder-gray-400'
 						placeholder='Zipcode'
 					/>
+                    {formErrors.zipCode && (
+                <div className="error">{formErrors.zipCode}</div>
+            )}
 				</div>
 			</div>
 			<div className='flex flex-col my-1'>
@@ -139,6 +153,9 @@ export default function Step2({
 					className='border rounded-lg px-3 py-2 focus:outline-none focus:ring-black focus:border-black placeholder:sm:text-sm placeholder-gray-400'
 					placeholder='Company'
 				/>
+                {formErrors.company && (
+                <div className="error">{formErrors.company}</div>
+            )}
 			</div>
 			<div className=''>
 				<div className='flex flex-col my-3'>
@@ -152,6 +169,9 @@ export default function Step2({
 						className='border rounded-lg px-3 py-2 focus:outline-none focus:ring-black focus:border-black placeholder:sm:text-sm placeholder-gray-400'
 						placeholder='Phone Number'
 					/>
+                    {formErrors.phoneNumber && (
+                <div className="error">{formErrors.phoneNumber}</div>
+            )}
 				</div>
 			</div>
 		</form>
